@@ -4,6 +4,12 @@
 
 A browser-based 3D-print slicer (Persian/English UI) with Cura-like settings, supports (normal/tree), adhesion, split with connectors, crop, base, printer profiles, pricing and G-code export.
 
+## نسخهٔ زنده (ریشهٔ مخزن)
+
+`index.html`، `.htaccess`، `lib/`، `fonts/` و `img/` در ریشه همان نسخه‌ای هستند که روی [parsabanitaba.ir/slicer](https://parsabanitaba.ir/slicer/) منتشر شده است. ساخت از `src/` با `build.py` هنوز جدا از این نسخه است و خروجی آن در `web/` و `dist/` می‌نشیند.
+
+Root files (`index.html`, `.htaccess`, `lib/`, `fonts/`, `img/`) are the copy deployed at parsabanitaba.ir/slicer. The `src/` + `build.py` pipeline is still separate from it.
+
 ## ساختار
 
 | مسیر | توضیح |
