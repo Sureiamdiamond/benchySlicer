@@ -1,0 +1,271 @@
+
+<header class="top">
+  <div class="brand"><img src="__LOGO__" alt="Benchy Print"><div><b>Benchy Slicer</b><span>محصولات پرینت سه‌بعدی</span></div></div>
+  <a class="ig" href="https://www.instagram.com/benchyprint/" target="_blank" rel="noopener" aria-label="اینستاگرام @benchyprint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg><span>@benchyprint</span></a>
+  <div class="ttl"></div>
+  <div class="printer"><i></i><span><span id="printerName">Ender-3 V3 SE</span> · <span class="mono" id="bedDims">220×220×250</span> · نازل <span class="mono" id="nozName">0.4</span> · <span id="fwName">Marlin</span></span></div>
+  <div class="accwrap"><button class="btn" id="accBtn" type="button" aria-expanded="false" aria-label="رنگ‌ها"><i class="accdot"></i><span>رنگ‌ها</span></button><div class="accents" id="accents" role="group" aria-label="رنگ پوسته" hidden></div></div>
+  <button class="btn" id="undoBtn" type="button" disabled aria-label="بازگشت یک مرحله" title="بازگشت یک مرحله (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg><span>بازگشت</span></button>
+  <button class="btn" id="helpTop" type="button" aria-pressed="false" aria-label="راهنما"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg><span>راهنما</span></button>
+  <button class="btn" id="langBtn" type="button" aria-label="Language">EN</button>
+  <button class="btn" id="themeBtn" type="button" aria-label="تغییر تم"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span id="themeTxt">تیره</span></button>
+</header>
+
+<main class="app">
+  <!-- objects & transform (right) -->
+  <section class="col set" aria-label="مدل‌ها و خروجی">
+    <details class="card" id="cModels" open>
+      <summary class="cardsum"><span class="st">مدل‌ها <small>STL · 3MF · OBJ</small></span></summary>
+      <label class="drop" for="file">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></svg>
+        <b>افزودن فایل یا رها کردن اینجا</b><span>چند فایل را با هم هم می‌شود انداخت. همه‌چیز روی دستگاه خودتان پردازش می‌شود.</span>
+      </label>
+      <input type="file" id="file" accept=".stl,.3mf,.obj,.curaprofile" multiple hidden>
+      <div class="err" id="err" hidden></div>
+      <ul class="objs" id="objList"></ul>
+      <p class="empty" id="objEmpty">هنوز مدلی روی بستر نیست. فایل STL، 3MF یا OBJ خود را اضافه کنید؛ چند فایل را می‌شود با هم انتخاب کرد.</p>
+      <div class="tools"><button class="btn sm" type="button" id="bestAll">جهت و چینش بهینهٔ همه</button></div>
+      <div class="tools"><button class="btn sm" type="button" id="arrange">چیدمان خودکار</button><button class="btn sm" type="button" id="clearAll">پاک کردن بستر</button></div>
+    </details>
+
+    <details class="card" id="cSlice" open>
+      <summary class="cardsum"><span class="st">برش و G-code</span></summary>
+      <div class="row" style="margin-top:6px;justify-content:flex-end"><label class="chk" style="font-weight:500;font-size:11.5px"><input type="checkbox" id="auto"> برش خودکار</label></div>
+      <div class="status" id="status">مدلی برای برش نیست.</div>
+      <div class="prog" id="prog" hidden><i></i></div>
+      <div id="result" hidden>
+        <div class="big"><span class="k">زمان پرینت</span><span class="v" id="tTime">—</span></div>
+        <div class="pair">
+          <div class="tile"><div class="k">فیلامنت</div><div class="v" id="fLen">—</div></div>
+          <div class="tile"><div class="k">وزن</div><div class="v" id="fW">—</div></div>
+        </div>
+        <div class="stack" id="stack"></div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="saverow">
+        <button class="btn" type="button" id="sliceBtn">برش</button>
+        <button class="btn pri" type="button" id="saveBtn" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>ذخیرهٔ G-code</button>
+      </div>
+      <div class="gmeta" id="gmeta"></div>
+    </details>
+
+    <details class="card" id="cPrice" open>
+      <summary class="cardsum"><span class="st">قیمت سفارش <small id="pcs"></small></span></summary>
+      <div class="duo">
+        <div><div class="sub-h" style="margin-top:0">سود</div><span><input class="num" type="number" data-k="profit" min="0" step="5"> <span class="hint">%</span></span></div>
+        <div><div class="sub-h" style="margin-top:0">دستمزد</div><span><input class="num" type="number" data-k="laborPct" min="0" step="5"> <span class="hint">%</span></span></div>
+      </div>
+      <details class="cat" style="margin-top:6px">
+        <summary>هزینه‌ها و پارامترها</summary>
+        <div class="row"><label>قیمت هر کیلو فیلامنت</label><span><input class="num" type="number" data-k="priceK" min="0" step="50"> <span class="hint">هزار تومان</span></span></div>
+        <div class="row"><label>هزینهٔ برق هر ساعت</label><span><input class="num" type="number" data-k="elecK" min="0" step="0.5"> <span class="hint">هزار تومان</span></span></div>
+        <div class="row"><label>استهلاک دستگاه هر ساعت</label><span><input class="num" type="number" data-k="wearK" min="0" step="1"> <span class="hint">هزار تومان</span></span></div>
+        <div class="row"><label>هزینهٔ آماده‌سازی سفارش</label><span><input class="num" type="number" data-k="setupK" min="0" step="5"> <span class="hint">هزار تومان</span></span></div>
+        <div class="row"><label>بسته‌بندی</label><span><input class="num" type="number" data-k="packK" min="0" step="1"> <span class="hint">هزار تومان</span></span></div>
+        <div class="row"><label>ضریب خرابی</label><span><input class="num" type="number" data-k="fail" min="0" max="100" step="1"> <span class="hint">%</span></span></div>
+        <div class="row"><label>مالیات بر ارزش افزوده</label><span><input class="num" type="number" data-k="tax" min="0" max="30" step="1"> <span class="hint">%</span></span></div>
+        <div class="row"><label>گرد کردن قیمت به</label><select data-k="round"><option value="1000">۱٬۰۰۰ تومان</option><option value="5000">۵٬۰۰۰ تومان</option><option value="10000">۱۰٬۰۰۰ تومان</option><option value="50000">۵۰٬۰۰۰ تومان</option></select></div>
+        <div class="row"><label>ضریب تصحیح زمان</label><input class="num" type="number" data-k="kf" min="0.5" max="2" step="0.05"></div>
+        <p class="hint">دستمزد درصدی از هزینهٔ فیلامنت، برق و استهلاک است. ضریب تصحیح: اگر زمان واقعی پرینت با تخمین فرق داشت، «زمان واقعی ÷ تخمین» را اینجا بگذارید.</p>
+      </details>
+      <dl class="bill" id="bill"></dl>
+      <div class="final"><div><div class="k">قیمت نهایی برای مشتری</div><div class="s" id="perPiece"></div></div><div class="v" id="finalP">—</div></div>
+    </details>
+
+    <details class="card" id="cStats" open>
+      <summary class="cardsum"><span class="st">مشخصات</span></summary>
+      <dl class="stats" id="stats"></dl>
+    </details>
+  
+    <a class="btn pri orderbtn" href="https://www.instagram.com/benchyprint/" target="_blank" rel="noopener">سفارش در @BenchyPrint</a>
+
+  </section>
+
+  <!-- stage (centre) -->
+  <section class="stage" aria-label="بستر سه‌بعدی">
+    <canvas id="gl"></canvas>
+    <div class="hud">
+      <div class="mode" role="group" aria-label="حالت نمایش"><button type="button" id="mPrep" aria-pressed="true">آماده‌سازی</button><button type="button" id="mPrev" aria-pressed="false" disabled>پیش‌نمایش G-code</button></div>
+      <div class="views" role="group" aria-label="نما"><button type="button" data-view="iso">سه‌بعدی</button><button type="button" data-view="front">جلو</button><button type="button" data-view="back">پشت</button><button type="button" data-view="top">بالا</button><button type="button" data-view="bottom">پایین</button><button type="button" data-view="left">چپ</button><button type="button" data-view="right">راست</button></div>
+      <div class="chips"><span class="chip" id="fitChip">—</span><span class="chip ok" id="tolChip" hidden></span></div>
+    </div>
+    <div class="rail" id="rail" role="toolbar" aria-label="ابزارها">
+      <button type="button" data-tool="move" aria-pressed="true" data-label="جابه‌جایی" title="جابه‌جایی (کشیدن مدل روی بستر)" aria-label="جابه‌جایی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M2 12h20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3"/></svg></button>
+      <button type="button" data-tool="scale" aria-pressed="false" data-label="مقیاس" title="مقیاس (کشیدن بالا/پایین روی مدل)" aria-label="مقیاس"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="10" height="10" rx="1"/><path d="M13 11l8-8M15 3h6v6"/></svg></button>
+      <button type="button" data-tool="rotate" aria-pressed="false" data-label="چرخش" title="چرخش حول Z (کشیدن چپ/راست، پله‌های ۱۵°)" aria-label="چرخش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/></svg></button>
+      <button type="button" data-tool="face" aria-pressed="false" data-label="خواباندن روی سطح" title="کلیک روی یک سطح تا روی بستر بخوابد" aria-label="خواباندن روی سطح"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 20h18"/><path d="M6 16l6-10 6 10z"/></svg></button>
+      <button type="button" data-tool="block" aria-pressed="false" data-label="مسدودکنندهٔ ساپورت" title="مسدودکنندهٔ ساپورت: جایی که ساپورت نمی‌خواهید" aria-label="مسدودکنندهٔ ساپورت"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 20L20 4"/></svg></button>
+      <button type="button" data-tool="cut" aria-pressed="false" data-label="خط برش" title="خط برش: در نمای بالا روی مدل بکشید" aria-label="خط برش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.1 15.9M14.5 14.5L20 20M8.1 8.1L12 12"/></svg></button>
+      <hr>
+      <button type="button" id="ovBtn" aria-pressed="false" data-label="نمایش اورهنگ" title="نمایش اورهنگ" aria-label="نمایش اورهنگ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V8h10l6 6"/><path d="M14 8v-4"/></svg></button>
+      <button type="button" id="viewBtn" aria-pressed="false" data-label="نمای پیش‌فرض" title="نمای پیش‌فرض" aria-label="نمای پیش‌فرض"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg></button>
+      <hr>
+      <button type="button" id="helpBtn" aria-pressed="false" data-label="راهنما" title="راهنمای ابزارها" aria-label="راهنمای ابزارها"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg></button>
+    </div>
+    <div class="toolpanel" id="movPanel" hidden>
+      <div class="sclgrid mov">
+        <span class="ax-x">X</span><span class="unit"><input class="num" type="number" id="mx" step="1" aria-label="X"><i>mm</i></span>
+        <span class="ax-y">Y</span><span class="unit"><input class="num" type="number" id="my" step="1" aria-label="Y"><i>mm</i></span>
+        <span class="ax-z">Z</span><span class="unit"><input class="num" type="number" id="mz" step="1" min="0" aria-label="Z"><i>mm</i></span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px"><label class="chk"><input type="checkbox" id="movLock"> قفل کردن مدل</label><label class="chk"><input type="checkbox" id="movDrop" checked> چسباندن مدل به بستر</label></div>
+    </div>
+    <div class="toolpanel" id="sclPanel" hidden>
+      <div class="sclgrid">
+        <span class="ax-x">X</span><span class="unit"><input class="num" type="number" id="sx" step="0.1" min="0.1" aria-label="X mm"><i>mm</i></span><span class="unit"><input class="num" type="number" id="spx" step="1" min="1" aria-label="X %"><i>%</i></span>
+        <span class="ax-y">Y</span><span class="unit"><input class="num" type="number" id="sy" step="0.1" min="0.1" aria-label="Y mm"><i>mm</i></span><span class="unit"><input class="num" type="number" id="spy" step="1" min="1" aria-label="Y %"><i>%</i></span>
+        <span class="ax-z">Z</span><span class="unit"><input class="num" type="number" id="sz" step="0.1" min="0.1" aria-label="Z mm"><i>mm</i></span><span class="unit"><input class="num" type="number" id="spz" step="1" min="1" aria-label="Z %"><i>%</i></span>
+      </div>
+      <div class="sclfoot"><button class="btn sm" type="button" id="sclReset" aria-label="بازنشانی مقیاس" title="بازنشانی مقیاس"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/></svg></button>
+        <div><label class="chk"><input type="checkbox" id="sclSnap" checked> مقیاس پله‌ای (۵٪)</label><label class="chk"><input type="checkbox" id="sclUni" checked> مقیاس یکنواخت</label></div></div>
+    </div>
+    <div class="toolpanel" id="rotPanel" hidden>
+      <div class="iconrow"><button class="ibtn" type="button" id="rotReset" title="بازنشانی چرخش" aria-label="بازنشانی چرخش"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/></svg></button><button class="ibtn" type="button" id="rotFlat" title="خواباندن" aria-label="خواباندن"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v8M8 7l4 4 4-4"/><path d="M5 20l7-6 7 6z"/></svg></button><button class="ibtn" type="button" id="rotFace" title="انتخاب سطح زیرین" aria-label="انتخاب سطح زیرین"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 12h16M12 4v16"/><rect x="4" y="12" width="8" height="8" fill="currentColor"/></svg></button></div>
+      <div class="tools"><button class="btn sm" type="button" id="rotBest">بهترین جهت (کمترین ساپورت)</button></div>
+      <label class="chk" style="margin:8px 0 4px"><input type="checkbox" id="rotSnap" checked> چرخش پله‌ای (۱۵°)</label>
+      <div class="rotrow"><span class="ax-x">X</span><input class="num" type="number" id="rotX" value="0" step="15" aria-label="X"><span class="ax-y">Y</span><input class="num" type="number" id="rotY" value="0" step="15" aria-label="Y"><span class="ax-z">Z</span><input class="num" type="number" id="rotZ" value="0" step="15" aria-label="Z"></div>
+      <p class="hint">عدد را بنویسید و Enter بزنید تا مدل همان‌قدر حول محور بچرخد.</p>
+    </div>
+
+    <div class="objov" id="objOv" hidden><button type="button" class="ovhead" id="objOvHead"><span>فهرست مدل‌ها</span><b></b></button><div class="ovlist" id="objOvList"></div></div>
+    <div class="legend2" id="legend2" hidden></div>
+    <div class="tip" id="tip"><span>روی مدل کلیک کنید و بکشید. روی فضای خالی بکشید تا دید بچرخد، با اسکرول زوم کنید.</span></div>
+    <div class="layerbar" id="layerbar" hidden>
+      <button class="btn" type="button" id="play" aria-label="پخش لایه به لایه"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"/></svg></button>
+      <input type="range" id="layer" min="1" max="1" step="1" value="1" aria-label="لایه">
+      <div class="lt">لایه <b id="lNo">—</b> · <b class="mono" id="lZ">—</b></div>
+    </div>
+    <div class="busy" id="busy" hidden><span><i class="spin"></i><b id="busyT">در حال خواندن فایل…</b></span></div>
+  </section>
+
+  <!-- settings, slice, price (left) -->
+  <section class="col res" aria-label="تنظیمات">
+    <details class="card" id="cSettings" open>
+      <summary class="cardsum"><span class="st">تنظیمات پرینت</span></summary>
+      <div class="row" style="margin-top:0"><span class="psel"><label for="printerSel">پرینتر</label><img id="printerLogo" alt="" hidden></span><select id="printerSel" style="max-width:190px"></select></div>
+      <p class="hint" id="printerNote" hidden></p>
+      <div class="sub" id="customPrinter" hidden>
+        <div class="row" style="margin-top:0"><label>نام پرینتر</label><input class="num wide" type="text" data-k="cName" style="text-align:right;direction:auto"></div>
+        <div class="trip"><div><div class="sub-h">عرض X</div><input class="num" type="number" data-k="bx" min="50" max="1000" style="width:100%"></div><div><div class="sub-h">عمق Y</div><input class="num" type="number" data-k="by" min="50" max="1000" style="width:100%"></div><div><div class="sub-h">ارتفاع Z</div><input class="num" type="number" data-k="bz" min="50" max="1000" style="width:100%"></div></div>
+        <div class="row"><label>قطر نازل</label><select data-k="nozzle"><option value="0.2">0.2</option><option value="0.4">0.4</option><option value="0.6">0.6</option><option value="0.8">0.8</option></select></div>
+        <div class="row"><label>فریمور</label><select data-k="cFlavor"><option value="marlin">Marlin</option><option value="klipper">Klipper</option></select></div>
+        <div class="row"><label>شتاب حداکثر</label><span><input class="num" type="number" data-k="cAcc" step="100"> <span class="hint">mm/s²</span></span></div>
+        <div class="row"><label>سرعت حداکثر</label><span><input class="num" type="number" data-k="cVmax" step="10"> <span class="hint">mm/s</span></span></div>
+        <p class="hint">G-code شروع و پایان را در «سفارشی ← پرینتر و G-code» بنویسید.</p>
+      </div>
+      <div class="row"><label for="profSel">پروفایل</label><select id="profSel" style="max-width:200px"></select></div>
+      <div class="profrow"><input type="text" id="profName" class="num" placeholder="نام پروفایل" style="flex:1;min-width:0;width:auto"><button class="btn sm" type="button" id="profSave">ذخیره</button><button class="btn sm" type="button" id="profDel">حذف</button>
+        <span class="more"><button class="btn sm" type="button" id="profMore" aria-expanded="false" aria-label="گزینه‌های بیشتر" title="گزینه‌های بیشتر">⋯</button>
+          <span class="menu" id="profMenu" hidden><button type="button" id="profExport">خروجی فایل</button><label for="profImport">ورود فایل</label><label for="curaImport">ورود پروفایل Cura (.curaprofile)</label></span></span>
+        <input type="file" id="profImport" accept=".json" hidden><input type="file" id="curaImport" accept=".curaprofile,.cfg,.inst.cfg" hidden></div>
+      <hr class="divider">
+      <div class="tabs" role="tablist"><button type="button" role="tab" id="tabRec" aria-selected="true">پیشنهادی</button><button type="button" role="tab" id="tabCus" aria-selected="false">سفارشی</button></div>
+      <div id="panRec">
+        <div class="row" style="display:block;margin-top:0"><span class="lb">کیفیت (ارتفاع لایه)</span><div class="seg" id="qSeg" style="margin-top:6px"></div></div>
+        <div class="row" style="display:block"><span class="lb">پروفایل سرعت</span><div class="seg" id="vSeg" style="margin-top:6px"></div></div>
+        <div class="row"><label for="rMat">فیلامنت</label><span style="display:flex;gap:6px;align-items:center"><input type="color" data-k="col" id="rCol" aria-label="رنگ مدل" class="colpick"><select id="rMat" data-k="mat"></select></span></div>
+        <div class="row"><label for="rInf">پرکننده</label><output id="rInfO"></output></div>
+        <input type="range" id="rInf" data-k="inf" min="0" max="100" step="5">
+        <label class="chk lg" style="margin-top:10px"><input type="checkbox" data-k="sup" id="rSup"> ساپورت</label>
+        <div class="sub" id="rSupOpts"><div class="tools" style="margin:0 0 6px"><button class="btn sm" type="button" id="lessSup">کم کردن ساپورت</button></div><div class="row" style="margin:0 0 6px"><label for="blkSize">اندازهٔ مسدودکننده</label><span><input class="num" type="number" id="blkSize" value="10" min="2" max="80" step="1"> <span class="hint">mm</span> <button class="btn sm" type="button" id="blkClear">حذف همه</button></span></div><div class="seg" id="rSupType" style="margin-bottom:6px"><button type="button" data-v="normal">معمولی</button><button type="button" data-v="tree">درختی</button></div><div class="seg" id="rSupWhere"><button type="button" data-v="bed">فقط از روی بستر</button><button type="button" data-v="all">همه‌جا</button></div></div>
+        <label class="chk lg" style="margin-top:8px"><input type="checkbox" id="rAdh"> چسبندگی به بستر</label>
+        <label class="chk lg" style="margin-top:8px"><input type="checkbox" data-k="keepTol"> حفظ لقی سوراخ و قطعات پازلی</label>
+        <div class="sub"><div class="row" style="margin:0"><label>لقی هر طرف اتصال</label><span><input class="num" type="number" data-k="tolGap" min="0" max="2" step="0.05"> <span class="hint">mm</span></span></div>
+          <div class="tools" style="margin-top:6px"><button class="btn sm" type="button" data-tol="auto">تشخیص خودکار از روی مدل</button></div>
+          <p class="hint tolhint"></p></div>
+        <div class="sub" id="rAdhOpts"><div class="seg" id="rAdhType"><button type="button" data-v="skirt">اسکرت</button><button type="button" data-v="brim">بریم</button><button type="button" data-v="raft">رافت</button></div></div>
+      </div>
+      <div id="panCus" hidden></div>
+    </details>
+
+    <details class="card" id="tfCard" open>
+      <summary class="cardsum"><span class="st">مدل انتخاب‌شده <small id="selName">—</small></span></summary>
+      <div class="sub-h">موقعیت روی بستر (مرکز مدل، mm)</div>
+      <div class="duo">
+        <div class="dim"><span class="ax-x">X</span><input id="px" type="number" step="1" aria-label="موقعیت X"></div>
+        <div class="dim"><span class="ax-y">Y</span><input id="py" type="number" step="1" aria-label="موقعیت Y"></div>
+      </div>
+      <div class="sub-h">ابعاد (mm)</div>
+      <div class="trip">
+        <div class="dim"><span class="ax-x">X</span><input id="dx" type="number" step="0.1" min="0.1" aria-label="طول X"></div>
+        <div class="dim"><span class="ax-y">Y</span><input id="dy" type="number" step="0.1" min="0.1" aria-label="عرض Y"></div>
+        <div class="dim"><span class="ax-z">Z</span><input id="dz" type="number" step="0.1" min="0.1" aria-label="ارتفاع Z"></div>
+      </div>
+      <div class="row"><label for="sc">مقیاس یکنواخت</label><span><input id="sc" class="num" type="number" step="1" min="1"> <span class="hint">%</span></span></div>
+      <label class="chk"><input type="checkbox" id="lock" checked> حفظ تناسب ابعاد</label>
+      <p class="hint" id="pieceNote" hidden>این قطعه از برش ساخته شده و فقط جابه‌جا می‌شود. مقیاس و چرخش را قبل از برش انجام دهید.</p>
+      <div class="sub-h">تلرانس قطعات</div>
+      <label class="chk"><input type="checkbox" data-k="keepTol"> حفظ لقی سوراخ‌ها و قطعات پازلی هنگام تغییر مقیاس</label>
+      <div class="row"><label>لقی هر طرف اتصال</label><span><input class="num" type="number" data-k="tolGap" min="0" max="2" step="0.05"> <span class="hint">mm</span></span></div>
+      <div class="tools" style="margin-top:0"><button class="btn sm" type="button" data-tol="auto">تشخیص خودکار از روی مدل</button></div>
+      <p class="hint tolhint"></p>
+      <p class="hint">با کوچک کردن مدل، فاصلهٔ بین قطعات و قطر سوراخ‌ها هم کوچک می‌شود و قطعه‌ها در هم نمی‌روند. این گزینه همان لقی اصلی را با جبران افقی برمی‌گرداند.</p>
+      <div class="sub-h">چرخش</div>
+      <div class="tools">
+        <button class="btn sm" type="button" data-rot="x">X ۹۰°</button>
+        <button class="btn sm" type="button" data-rot="y">Y ۹۰°</button>
+        <button class="btn sm" type="button" data-rot="z">Z ۹۰°</button>
+      </div>
+      <div class="tools">
+        <button class="btn sm" type="button" id="bestOri">بهترین جهت (کمترین ساپورت)</button>
+        <button class="btn sm" type="button" id="layFlat">بزرگ‌ترین سطح صاف</button>
+        <button class="btn sm" type="button" id="pickFace">انتخاب سطح زیرین</button>
+      </div>
+      <div class="sub-h">تکثیر</div>
+      <div class="row" style="margin-top:0"><span><input id="copies" class="num" type="number" min="1" max="50" value="1"> <span class="hint">نسخهٔ اضافه</span></span><button class="btn sm" type="button" id="multiply">تکثیر و چیدمان</button></div>
+      <div class="tools">
+        <button class="btn sm" type="button" id="dropBed">وسط بستر</button>
+        <button class="btn sm" type="button" id="fitBed">جا کردن در بستر</button>
+        <button class="btn sm" type="button" id="resetTf">بازنشانی</button>
+      </div>
+    </details>
+    <details class="card" id="splitCard" data-keep="closed">
+      <summary class="cardsum"><span class="st">برش، کانکتور، کراپ و پایه</span></summary>
+      <div class="tabs" id="spTabs" role="tablist" style="margin-top:10px"><button type="button" data-v="split" aria-selected="true">برش و کانکتور</button><button type="button" data-v="crop" aria-selected="false">کراپ</button><button type="button" data-v="base" aria-selected="false">پایه</button></div>
+      <div id="spSplit">
+        <label class="switch"><span>برش و تقسیم مدل</span><input type="checkbox" id="cutOn"></label>
+        <p class="hint" id="spOff">برای برش زدن، تقسیم مدل و اضافه کردن کانکتور، این کلید را روشن کنید.</p>
+        <div id="spSplitBody" hidden>
+        <div class="row" style="display:block;margin-top:0"><span class="lb">محل برش</span><div class="seg" id="spAxis" style="margin-top:6px"><button type="button" data-v="x">X</button><button type="button" data-v="y">Y</button><button type="button" data-v="z">Z (افقی)</button><button type="button" data-v="line">خط دلخواه</button></div></div>
+        <div id="spPosRow"><div class="row"><label for="spPos">جای برش روی مدل</label><output id="spPosO"></output></div><input type="range" id="spPos" min="3" max="97" value="50"></div>
+        <div id="spLineRow" hidden><div class="row"><span class="hint" id="spLineTxt" style="margin:0"></span><button class="btn sm" type="button" id="spDraw">رسم خط برش</button></div></div>
+        <div class="row" style="display:block"><span class="lb">نوع کانکتور</span><div class="seg wrap" id="spStyle" style="margin-top:6px"></div></div>
+        <div id="spOpts">
+          <div class="duo">
+            <div><div class="sub-h" id="spSizeL">اندازهٔ زبانه</div><span><input class="num" type="number" id="spSize" value="8" min="2" max="40" step="1"> <span class="hint">mm</span></span></div>
+            <div><div class="sub-h">تعداد (۰ = خودکار)</div><input class="num" type="number" id="spCount" value="0" min="0" max="12" step="1"></div>
+          </div>
+          <div class="row"><label for="spTol">لقی اتصال</label><span><input class="num" type="number" id="spTol" value="0.2" min="0" max="1" step="0.05"> <span class="hint">mm</span></span></div>
+        </div>
+        <div class="tools"><button class="btn pri" type="button" id="doSplit">برش به دو قطعه</button></div>
+        <div class="tools"><button class="btn sm" type="button" id="splitFit">تقسیم خودکار برای جا شدن در بستر</button></div>
+        <p class="hint">کانکتور پازلی، دم‌چلچله و زبانه روی خود قطعه‌ها چاپ می‌شوند. «دوبل» در هر دو قطعه سوراخ می‌زند و پین‌های جدا را هم به بستر اضافه می‌کند.</p>
+              </div>
+      </div>
+      <div id="spCrop" hidden>
+        <p class="hint" style="margin-top:0">جعبهٔ نارنجی بخشی است که نگه داشته می‌شود؛ بقیهٔ مدل حذف می‌شود.</p>
+        <div class="crop"><span class="ax-x">X</span><input type="range" id="cx0" min="0" max="100" value="0" aria-label="X از"><input type="range" id="cx1" min="0" max="100" value="100" aria-label="X تا"></div>
+        <div class="crop"><span class="ax-y">Y</span><input type="range" id="cy0" min="0" max="100" value="0" aria-label="Y از"><input type="range" id="cy1" min="0" max="100" value="100" aria-label="Y تا"></div>
+        <div class="crop"><span class="ax-z">Z</span><input type="range" id="cz0" min="0" max="100" value="0" aria-label="Z از"><input type="range" id="cz1" min="0" max="100" value="100" aria-label="Z تا"></div>
+        <div class="tools"><button class="btn pri" type="button" id="doCrop">کراپ</button></div>
+      </div>
+      <div id="spBase" hidden>
+        <p class="hint" style="margin-top:0">یک پایه زیر فیگور اضافه می‌شود و با خود مدل یک‌جا چاپ می‌شود.</p>
+        <div class="seg wrap" id="bsShape"><button type="button" data-v="circle">دایره</button><button type="button" data-v="rect">چهارگوش</button><button type="button" data-v="hex">شش‌ضلعی</button><button type="button" data-v="contour">دور مدل</button></div>
+        <div class="trip" style="margin-top:8px">
+          <div><div class="sub-h">ارتفاع</div><input class="num" type="number" id="bsH" value="3" min="0.6" max="30" step="0.5" style="width:100%"></div>
+          <div><div class="sub-h">حاشیه</div><input class="num" type="number" id="bsM" value="5" min="0" max="60" step="1" style="width:100%"></div>
+          <div><div class="sub-h">پخ لبه</div><input class="num" type="number" id="bsC" value="1" min="0" max="10" step="0.5" style="width:100%"></div>
+        </div>
+        <div class="tools"><button class="btn pri" type="button" id="doBase">افزودن / به‌روزرسانی پایه</button><button class="btn sm" type="button" id="noBase">حذف پایه</button></div>
+      </div>
+    </details>
+  
+  </section>
+</main>
+<footer class="credit"><a href="https://parsabanitaba.ir" target="_blank" rel="noopener">ساخته شده توسط پارسا بنی‌طبا</a></footer>
+<aside class="help" id="help" hidden aria-label="راهنما"></aside>
+<div class="gtip" id="gtip" hidden role="tooltip"></div>
+<div class="modal" id="suggest" hidden></div>
+<div class="dropmask" id="dropmask" hidden>فایل را رها کنید</div>
+<div class="toast" id="toast" hidden></div>
